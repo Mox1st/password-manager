@@ -8,7 +8,6 @@ import de.mox1st.passwordmanager.model.User;
 import de.mox1st.passwordmanager.database.UserRepository;
 import de.mox1st.passwordmanager.database.PasswordEntryRepository;
 import de.mox1st.passwordmanager.service.LoginService;
-import de.mox1st.passwordmanager.service.RegisterService;
 import de.mox1st.passwordmanager.service.EncryptionSession;
 import de.mox1st.passwordmanager.service.LoginAttemptLimiter;
 import java.security.GeneralSecurityException;
@@ -23,7 +22,6 @@ private Label errorLabel;
 private Button registerButton;
 
 private LoginService loginService;
-private RegisterService registerService;
 private DashboardController dashboardController;
 private Stage loginStage;
 private final LoginAttemptLimiter loginAttemptLimiter = new LoginAttemptLimiter();
@@ -47,7 +45,6 @@ public LoginController(
     UserRepository userRepository = new UserRepository();
 
     this.loginService = new LoginService(userRepository);
-    this.registerService = new RegisterService(userRepository);
     this.dashboardController = new DashboardController();
     this.dashboardController.setLoginPasswordField(passwordField);
 }
@@ -58,7 +55,12 @@ public void initialize(){
     //Legt fest, dass beim Klicken auf den Login-Button die Login-Methode ausgeführt wird.
     loginButton.setOnAction(event -> handleLogin());
 
-    registerButton.setOnAction(event -> handleRegister());
+registerButton.setOnAction(event -> {
+    RegistrationController registrationController =
+            new RegistrationController(loginStage);
+
+    registrationController.show();
+});
 }
 
 // Verarbeitet den Login-Vorgang.
@@ -118,25 +120,5 @@ private void clearLoginPassword() {
     passwordField.clear();
 }
 
-private void handleRegister(){
 
-    String username = usernameField.getText();
-    String password = passwordField.getText();
-
-    if (username.isEmpty()){
-        errorLabel.setText("Benutzername fehlt!");
-    }
-    else if (password.isEmpty()){
-        errorLabel.setText("Passwort fehlt!");
-    }
-    else if (!registerService.isAcceptableMasterPassword(password)) {
-        errorLabel.setText("Das Master-Passwort muss mindestens 8 Zeichen lang sein und ausreichend stark sein.");
-    }
-    else if (registerService.register(username, password)){
-        errorLabel.setText("Registrierung erfolgreich!");
-    }
-    else {
-        errorLabel.setText("Benutzername bereits vergeben!");
-    }
-}
 }

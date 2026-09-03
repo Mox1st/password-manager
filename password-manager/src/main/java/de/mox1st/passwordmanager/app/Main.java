@@ -25,8 +25,8 @@ public class Main extends Application {
         //start() startet die grafische Oberfläche
         stage.setTitle("Password Manager");
         //Jetzt soll das Fenster eine Größe bekommen.:
-        stage.setWidth(800); 
-        stage.setHeight(600);
+        stage.setWidth(520);
+        stage.setHeight(500);
 
         VBox root= new VBox();
         root.getStyleClass().add("auth-card");
@@ -44,7 +44,7 @@ public class Main extends Application {
         //"Password Manager"=Text, der angezeigt werden soll.
         VBox.setMargin(title, new Insets(0,0,20,0)); //Fügt dem Titel einen Abstand von 20 Pixeln nach unten hinzu.
         title.getStyleClass().add("title"); //Fügt dem Titel die CSS-Klasse "title" hinzu.
-        Label subtitle = new Label("Deine Passwörter. Sicher verwaltet.");
+        Label subtitle = new Label("Willkommen zurück");
         subtitle.getStyleClass().add("subtitle");
         root.getChildren().add(title);
         root.getChildren().add(subtitle);
@@ -55,23 +55,23 @@ public class Main extends Application {
         //TextField =Datentyp für ein Texteingabefeld.
         //usernameField=Variablenname.
         //new TextField()=erstellt ein neues Eingabefeld.
-        usernameField.setPromptText("Benutzername oder E-Mail");    //Zeigt einen Hinweis im leeren Eingabefled.
+        usernameField.setPromptText("Benutzername");    //Zeigt einen Hinweis im leeren Eingabefled.
         usernameField.setPrefWidth(300);    //Legt die bevorzugte Breite des Benutzernamenfeldes auf 300 Pixel fest.
         usernameField.getStyleClass().add("input-field"); //Fügt dem Benutzernamenfeld die CSS-Klasse "input-field" hinzu.
 
         
         PasswordField passwordField = new PasswordField();
         
-        passwordField.setPromptText("Passwort");
+        passwordField.setPromptText("Master-Passwort");
         passwordField.setPrefWidth(300);    //Legt die bevorzugte Breitedes. Passwortfeldes auf 300 Pixel fest.
         passwordField.getStyleClass().add("input-field");   //Fügt dem Passwortfeld die CSS-Klasse "input-field" hinzu.
 
-        Button loginButton = new Button("Login");
+        Button loginButton = new Button("Einloggen");
         loginButton.setPrefWidth(300);  //Ledt die bevorzugte Breite des Login-Buttons auf 300 Pixel fest.
         VBox.setMargin(loginButton, new Insets(10,0,0,0));  //Fügt dem Login-Button einen Abstand von 10 Pixeln nach oben hinzu.
         loginButton.getStyleClass().add("login-button");    //Fügt dem Login-Button die CSS-Klasse "login-button" hinzu.
         
-        Button registerButton = new Button ("Registrieren");
+        Button registerButton = new Button ("Noch kein Konto? Registrieren");
         registerButton.setPrefWidth(300);
         registerButton.getStyleClass().add("register-button");
 
