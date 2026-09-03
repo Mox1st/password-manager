@@ -1,1 +1,6 @@
-.hamed
+target/
+.idea/
+*.iml
+.DS_Store
+passwordmanager.db
+*.log
