@@ -2,5 +2,6 @@ target/
 .idea/
 *.iml
 .DS_Store
+*.class
 passwordmanager.db
-*.log.DS_Store
+*.log
