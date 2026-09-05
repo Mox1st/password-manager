@@ -1,32 +1,58 @@
 package de.mox1st.passwordmanager.database;
 
-import java.sql.Connection;     //Stellt eine Verbindung zur Datenbanken dar.
-import java.sql.DriverManager;  //Baut die Verbindung zur SQLite-Datenbank auf.
-import java.sql.SQLException;   //Damit können wir Fehler bei der Datenbankverbindung behnadeln.
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DatabaseConnection {
-    
-    private static final String URL = "jdbc:sqlite:passwordmanager.db";
 
-    //Verbindung Methode 
-    public static Connection connect(){
+    private static final Path DATABASE_PATH = getDatabasePath();
+    private static final String URL = "jdbc:sqlite:" + DATABASE_PATH;
 
+    private static Path getDatabasePath() {
+        Path appDataDirectory = Paths.get(
+                System.getProperty("user.home"),
+                "Library",
+                "Application Support",
+                "Password Manager"
+        );
+
+        try {
+            Files.createDirectories(appDataDirectory);
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "Der Anwendungsordner konnte nicht erstellt werden.",
+                    e
+            );
+        }
+
+        return appDataDirectory.resolve("passwordmanager.db");
+    }
+
+    public static Connection connect() {
         Connection connection = null;
-        try{
+
+        try {
             connection = DriverManager.getConnection(URL);
+
             try (var statement = connection.createStatement()) {
-                    statement.execute("PRAGMA foreign_keys = ON");
+                statement.execute("PRAGMA foreign_keys = ON");
             }
+
             return connection;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException closeException) {
-                        e.addSuppressed(closeException);
-                    }
+                try {
+                    connection.close();
+                } catch (SQLException closeException) {
+                    e.addSuppressed(closeException);
+                }
             }
+
             throw new IllegalStateException(
                     "Die Datenbankverbindung konnte nicht hergestellt werden.",
                     e
@@ -34,16 +60,15 @@ public class DatabaseConnection {
         }
     }
 
-    public static void createTables(){
+    public static void createTables() {
 
         String sql = """
                 CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL
                 );
                 """;
-
 
         String passwordEntrysql = """
                 CREATE TABLE IF NOT EXISTS password_entries (
@@ -54,7 +79,8 @@ public class DatabaseConnection {
                 password TEXT NOT NULL,
                 FOREIGN KEY(user_id) REFERENCES users(id)
                 );
-                """;      
+                """;
+
         String userSecuritySql = """
                 CREATE TABLE IF NOT EXISTS user_security (
                 user_id INTEGER PRIMARY KEY,
@@ -62,18 +88,19 @@ public class DatabaseConnection {
                 FOREIGN KEY(user_id) REFERENCES users(id)
                 );
                 """;
-        try(Connection connection = connect();
-            var statement = connection.createStatement()) {
 
-                statement.execute(sql);
-                statement.execute(passwordEntrysql);
-                statement.execute(userSecuritySql);
+        try (Connection connection = connect();
+             var statement = connection.createStatement()) {
 
-            } catch (SQLException e){
-                throw new IllegalStateException(
-                        "Die Datenbanktabellen konnten nicht erstellt werden.",
-                        e
-                );
-            }
+            statement.execute(sql);
+            statement.execute(passwordEntrysql);
+            statement.execute(userSecuritySql);
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Die Datenbanktabellen konnten nicht erstellt werden.",
+                    e
+            );
+        }
     }
 }

@@ -6,7 +6,7 @@
 
   <groupId>de.mox1st</groupId>
   <artifactId>password-manager</artifactId>
-  <version>1.0-SNAPSHOT</version>   <!--Die aktuelle version, Das projekt befindet sich noch in der Entwicklung-->
+  <version>1.0.0</version>
 
   <name>password-manager</name>
   <!-- FIXME change it to the project's website -->
@@ -15,7 +15,9 @@
   <properties>    <!--Hier speichern wir allgemeine Einstellungen.-->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!--Legt die Zeichenkodierung des Projekts auf UTF-8 fest.-->
     <maven.compiler.release>26</maven.compiler.release> 
-    <javafx.version>26.0.1</javafx.version> 
+    <javafx.version>26.0.1</javafx.version>
+    <app.name>Password Manager</app.name>
+    <app.mainClass>de.mox1st.passwordmanager.app.Main</app.mainClass>
   </properties>
 
   <dependencies>                    <!--Hier stehen später Bibliotheken wie:JavaFX, SQLite,...-->
@@ -74,6 +76,13 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId> <!--Erstellt später password-manager.jar-->
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>${app.mainClass}</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId> <!--Installiert das Projekt lokal. Andere Projekte können es dann benutzen.-->
