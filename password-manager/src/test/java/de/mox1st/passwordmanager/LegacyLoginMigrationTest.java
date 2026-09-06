@@ -25,7 +25,7 @@ public class LegacyLoginMigrationTest {
         try {
             String url = database.toString();
             setupSchema(url);
-            String password = "legacy-master-value";
+            String password = "TEST_ONLY_LEGACY_MASTER_PASSWORD";
             String legacyHash = legacyHash(password);
             insertUser(url, legacyHash);
             LoginService login = loginService(url);
@@ -64,7 +64,7 @@ public class LegacyLoginMigrationTest {
         try {
             String url = database.toString();
             setupSchema(url);
-            String password = "legacy-master-value";
+            String password = "TEST_ONLY_LEGACY_MASTER_PASSWORD";
             String legacyHash = legacyHash(password);
             insertUser(url, legacyHash);
             try (Connection connection = connect(url);
