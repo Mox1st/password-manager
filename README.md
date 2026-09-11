@@ -4,6 +4,10 @@ Ein sicherer lokaler Desktop-Passwortmanager für macOS, entwickelt mit Java 26,
 
 Der Password Manager ermöglicht es, Zugangsdaten lokal zu speichern, zu verschlüsseln und über verschlüsselte Backups zu sichern.
 
+## 📸 Demo
+
+![Password Manager Demo](password-manager-demo.gif)
+
 ## ✨ Funktionen
 
 - 🔐 Sichere lokale Passwortverwaltung
@@ -59,21 +63,16 @@ Die Anwendung enthält eine eigene Java-Laufzeitumgebung. Java und Maven müssen
 
 > **Hinweis:** Da die Anwendung aktuell nicht von Apple signiert und notarisiert ist, kann macOS beim ersten Start eine Sicherheitswarnung anzeigen.
 
-## 🛠️ Technologien
+## 🚀 Lokale Installation und Entwicklung
+
+### Voraussetzungen
 
 - Java 26
-- JavaFX 26.0.1
-- SQLite
 - Maven
-- JUnit
-- jpackage
+- Git
 
-## 🧪 Tests
+### Repository klonen
 
-Der aktuelle Stand:
-
-```text
-Tests run: 57
-Failures: 0
-Errors: 0
-Skipped: 0
+```bash
+git clone https://github.com/Mox1st/password-manager.git
+cd password-manager
